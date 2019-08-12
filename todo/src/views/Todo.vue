@@ -21,40 +21,10 @@
     </transition-group>
     <hr />
     <div class="flex todo-ext">
-      <div class="todo-filters">
-        <button
-          class="filter-button"
-          :class="{ 'filter-active': filter === 'Все' }"
-          @click="filter = 'Все'"
-        >
-          Все
-        </button>
-        <button
-          class="filter-button"
-          :class="{ 'filter-active': filter === 'Активные' }"
-          @click="filter = 'Активные'"
-        >
-          Активные
-        </button>
-        <button
-          class="filter-button"
-          :class="{ 'filter-active': filter === 'Завершенные' }"
-          @click="filter = 'Завершенные'"
-        >
-          Завершенные
-        </button>
-      </div>
-      <div class="todo-clear">
-        <transition name="fade">
-          <button
-            v-if="showClearButton"
-            class="clear-button"
-            @click="clearDone"
-          >
-            Очистить выполненые задачи
-          </button>
-        </transition>
-      </div>
+      <todo-filter></todo-filter>
+      <transition name="fade">
+       <todo-clear :showClearButton="showClearButton"></todo-clear>
+      </transition>
     </div>
   </div>
 </template>
@@ -62,11 +32,15 @@
 <script>
 import { eventBus } from "@/main";
 import TodoItem from "@/components/TodoItem.vue";
+import TodoFilter from "@/components/TodoFilter.vue";
+import TodoClear from "@/components/TodoClear.vue";
 
 export default {
   name: "todo",
   components: {
-    TodoItem
+    TodoItem,
+    TodoFilter,
+    TodoClear
   },
   data() {
     return {
@@ -92,6 +66,14 @@ export default {
   created() {
     eventBus.$on("deletedTodo", index => this.deleteTodo(index));
     eventBus.$on("finishedEdit", data => this.finishedEdit(data));
+    eventBus.$on("filterChanged", filter => this.filter = filter);
+    eventBus.$on("clearDone", () => this.clearDone());
+  },
+  beforeDestroy() {
+    eventBus.$off("deletedTodo", index => this.deleteTodo(index));
+    eventBus.$off("finishedEdit", data => this.finishedEdit(data));
+    eventBus.$off("filterChanged", filter => this.filter = filter);
+    eventBus.$off("clearDone", () => this.clearDone());
   },
   computed: {
     todosFiltered() {
@@ -155,36 +137,6 @@ export default {
 .todo-ext {
   margin-top: 15px;
   justify-content: space-between;
-}
-
-.filter-button {
-  width: 120px;
-  height: 36px;
-  background-color: white;
-  border: 1px solid lightgray;
-  border-left: none;
-  outline: none;
-  cursor: pointer;
-}
-
-.filter-button:first-child {
-  border-left: 1px solid lightgray;
-}
-
-.filter-active {
-  background-color: #2ecc71;
-  border-color: #2ecc71;
-  color: white;
-}
-
-.clear-button {
-  height: 36px;
-  padding: 0 15px;
-  color: white;
-  background-color: royalblue;
-  border: none;
-  outline: none;
-  cursor: pointer;
 }
 
 .fade-enter-active,
