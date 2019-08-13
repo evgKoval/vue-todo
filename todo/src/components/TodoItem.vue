@@ -2,7 +2,12 @@
   <div class="todo-item">
     <div class="flex align-items-center">
       <div class="todo-check">
-        <checkbox v-model="done" color="#2ecc71" :size="21" />
+        <checkbox
+          v-model="done"
+          @change="changeDone"
+          color="#2ecc71"
+          :size="21"
+        />
       </div>
       <div
         class="todo-label"
@@ -23,12 +28,12 @@
         v-focus
       />
     </div>
-    <div class="todo-delete" @click="deleteTodo(index)">&times;</div>
+    <div class="todo-delete" @click="deleteTodo()">&times;</div>
   </div>
 </template>
 
 <script>
-import { eventBus } from "@/main";
+//import { eventBus } from "@/main";
 import Checkbox from "vue-material-checkbox";
 
 export default {
@@ -36,10 +41,6 @@ export default {
   props: {
     todo: {
       type: Object,
-      required: true
-    },
-    index: {
-      type: Number,
       required: true
     }
   },
@@ -56,8 +57,14 @@ export default {
     };
   },
   methods: {
-    deleteTodo(index) {
-      eventBus.$emit("deletedTodo", index);
+    changeDone(event) {
+      this.$store.dispatch("changeDone", {
+        event: event,
+        id: this.id
+      });
+    },
+    deleteTodo() {
+      this.$store.dispatch("deleteTodo", this.id);
     },
     editTodo() {
       this.cacheTitle = this.title;
@@ -69,15 +76,23 @@ export default {
       }
 
       this.editing = false;
-      eventBus.$emit("finishedEdit", {
-        index: this.index,
-        todo: {
-          id: this.id,
-          title: this.title,
-          done: this.done,
-          editing: this.editing
-        }
+
+      this.$store.dispatch("updateTodo", {
+        id: this.id,
+        title: this.title,
+        done: this.done,
+        editing: this.editing
       });
+
+      // eventBus.$emit("finishedEdit", {
+      //   id: this.index,
+      //   todo: {
+      //     id: this.id,
+      //     title: this.title,
+      //     done: this.done,
+      //     editing: this.editing
+      //   }
+      // });
     },
     cancelEdit() {
       this.title = this.cacheTitle;

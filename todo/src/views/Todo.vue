@@ -7,30 +7,30 @@
       v-model="todo_input"
       @keyup.enter="addTodo"
     />
+    <div v-if="$store.state.loading" class="lds-ring">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
     <transition-group
       name="fade"
       enter-active-class="animated fadeInUp"
       leave-active-class="animated fadeOutDown"
     >
-      <todo-item
-        v-for="(todo, index) in todosFiltered"
-        :key="todo.id"
-        :todo="todo"
-        :index="index"
-      ></todo-item>
+      <todo-item v-for="todo in todosFiltered" :key="todo.id" :todo="todo" />
     </transition-group>
     <hr />
     <div class="flex todo-ext">
-      <todo-filter></todo-filter>
+      <todo-filter />
       <transition name="fade">
-       <todo-clear :showClearButton="showClearButton"></todo-clear>
+        <todo-clear />
       </transition>
     </div>
   </div>
 </template>
 
 <script>
-import { eventBus } from "@/main";
 import TodoItem from "@/components/TodoItem.vue";
 import TodoFilter from "@/components/TodoFilter.vue";
 import TodoClear from "@/components/TodoClear.vue";
@@ -45,48 +45,15 @@ export default {
   data() {
     return {
       todo_input: "",
-      cacheTitle: "",
-      filter: "Все",
-      todos: [
-        {
-          id: 1,
-          title: "Task 1",
-          done: false,
-          editing: false
-        },
-        {
-          id: 2,
-          title: "Task 2",
-          done: false,
-          editing: false
-        }
-      ]
+      cacheTitle: ""
     };
   },
   created() {
-    eventBus.$on("deletedTodo", index => this.deleteTodo(index));
-    eventBus.$on("finishedEdit", data => this.finishedEdit(data));
-    eventBus.$on("filterChanged", filter => this.filter = filter);
-    eventBus.$on("clearDone", () => this.clearDone());
-  },
-  beforeDestroy() {
-    eventBus.$off("deletedTodo", index => this.deleteTodo(index));
-    eventBus.$off("finishedEdit", data => this.finishedEdit(data));
-    eventBus.$off("filterChanged", filter => this.filter = filter);
-    eventBus.$off("clearDone", () => this.clearDone());
+    this.$store.dispatch("fetchTodos");
   },
   computed: {
     todosFiltered() {
-      if (this.filter === "Все") {
-        return this.todos;
-      } else if (this.filter === "Активные") {
-        return this.todos.filter(todo => !todo.done);
-      } else {
-        return this.todos.filter(todo => todo.done);
-      }
-    },
-    showClearButton() {
-      return this.todos.filter(todo => todo.done).length > 0;
+      return this.$store.getters.todosFiltered;
     }
   },
   methods: {
@@ -95,7 +62,7 @@ export default {
         return;
       }
 
-      this.todos.push({
+      this.$store.dispatch("addTodo", {
         id: Math.random(),
         title: this.todo_input,
         done: false,
@@ -103,15 +70,6 @@ export default {
       });
 
       this.todo_input = "";
-    },
-    deleteTodo(index) {
-      this.todos.splice(index, 1);
-    },
-    clearDone() {
-      this.todos = this.todos.filter(todo => !todo.done);
-    },
-    finishedEdit(data) {
-      this.todos.splice(data.index, 1, data.todo);
     }
   }
 };
@@ -121,13 +79,7 @@ export default {
 @import url(https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css);
 
 .todo-input {
-  width: 100%;
   padding: 15px 21px;
-  font-size: 18px;
-  border: 1px solid lightgray;
-  border-radius: 6px;
-  outline: none;
-  margin-bottom: 1rem;
 }
 
 .todo-input:focus {
@@ -147,5 +99,48 @@ export default {
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
+  animation-duration: 0.45s;
+}
+
+.lds-ring {
+  display: block;
+  margin: auto;
+  position: relative;
+  width: 64px;
+  height: 64px;
+}
+
+.lds-ring div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 51px;
+  height: 51px;
+  margin: 6px;
+  border: 3px solid lightgray;
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: lightgray transparent transparent transparent;
+}
+
+.lds-ring div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+
+.lds-ring div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+
+.lds-ring div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>

@@ -25,22 +25,17 @@
 </template>
 
 <script>
-import { eventBus } from "@/main";
-
 export default {
   name: "todo-filter",
-  props: {
-    
-  },
-  data() {
-    return {
-      filter: "Все",
-    };
+  props: {},
+  computed: {
+    filter() {
+      return this.$store.state.filter;
+    }
   },
   methods: {
     changeFilter(filter) {
-      this.filter = filter
-      eventBus.$emit('filterChanged', filter)
+      this.$store.commit("CHANGE_FILTER", filter);
     }
   }
 };
