@@ -2,8 +2,8 @@
   <div class="login text-center">
     <h2>Регистрация</h2>
     <form @submit.prevent="register">
-      <input type="text" v-model="email" placeholder="Email" />
-      <input type="text" v-model="password" placeholder="Пароль" />
+      <input type="email" v-model="email" placeholder="Email" />
+      <input type="password" v-model="password" placeholder="Пароль" />
       <button type="submit" class="button-form">Зарегистрироваться</button>
     </form>
     <div class="auth-links">

@@ -3,15 +3,16 @@ import Vuex from "vuex";
 import db from "@/firebase";
 
 import user from "@/store/user";
+import feedback from "@/store/feedback";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   modules: {
-    user
+    user,
+    feedback
   },
   state: {
-    loading: true,
     filter: "Все",
     todos: []
   },
