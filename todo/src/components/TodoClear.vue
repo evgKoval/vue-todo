@@ -31,5 +31,10 @@ export default {
   padding: 0 15px;
   color: white;
   background-color: royalblue;
+  border-radius: 4px;
+}
+
+.clear-button:hover {
+  background-color: rgb(51, 88, 200);
 }
 </style>

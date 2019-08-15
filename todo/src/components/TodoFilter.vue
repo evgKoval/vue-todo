@@ -54,6 +54,13 @@ export default {
 
 .filter-button:first-child {
   border-left: 1px solid lightgray;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+.filter-button:last-child {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
 }
 
 .filter-active {

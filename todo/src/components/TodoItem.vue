@@ -133,11 +133,12 @@ export default {
 .todo-edit {
   width: 100%;
   font-size: 21px;
-  padding: 11.5px;
+  padding: 12px;
   padding-left: 14px;
   border: 1px solid lightgray;
   border-radius: 3px;
   outline: none;
+  margin-bottom: 0;
 }
 
 .todo-check .m-chckbox--container {

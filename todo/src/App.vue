@@ -1,11 +1,53 @@
 <template>
   <div id="app">
+    <nav class="navbar">
+      <ul class="flex">
+        <template v-if="isLogged">
+          <li>
+            <router-link :to="{ name: 'todo' }">Главная</router-link>
+          </li>
+          <li>
+            <a @click="logout">Выйти</a>
+          </li>
+        </template>
+        <template v-else>
+          <li>
+            <router-link :to="{ name: 'login' }">Войти</router-link>
+          </li>
+          <li>
+            <router-link :to="{ name: 'register' }">Регистрация</router-link>
+          </li>
+        </template>
+      </ul>
+    </nav>
     <div class="logo">
       <img src="@/assets/logo.jpg" alt="Logo ToDo" width="120" height="auto" />
     </div>
-    <router-view />
+    <transition name="fade" mode="out-in">
+      <router-view />
+    </transition>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {};
+  },
+  computed: {
+    isLogged() {
+      return this.$store.getters.checkUser;
+    }
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch("logoutUser").then(() => {
+        this.$router.push("/login");
+      });
+    }
+  }
+};
+</script>
 
 <style>
 @import url("https://fonts.googleapis.com/css?family=Roboto+Condensed");
@@ -41,6 +83,33 @@ input {
   border-radius: 6px;
   box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.06);
   margin-top: 3rem;
+}
+
+.navbar ul {
+  justify-content: center;
+  padding: 0;
+  margin-top: 0;
+}
+
+.navbar li {
+  padding: 0 15px;
+}
+
+.navbar a {
+  color: #2c3e50;
+}
+
+li {
+  list-style: none;
+}
+
+.navbar .router-link-active {
+  color: #2ecc71;
+  cursor: default;
+}
+
+.router-link-active:hover {
+  text-decoration: none;
 }
 
 .logo {
@@ -94,6 +163,7 @@ button {
 a {
   text-decoration: none;
   color: #3498db;
+  cursor: pointer;
 }
 
 a:hover {
@@ -117,5 +187,81 @@ a:hover {
 .auth-links {
   margin-top: 1.5rem;
   font-size: 15px;
+}
+
+.message {
+  padding: 0 30px;
+  margin-top: 1rem;
+}
+
+.error {
+  color: orangered;
+}
+
+.notification {
+  color: #2ecc71;
+}
+
+.lds-ring {
+  display: block;
+  margin: auto;
+  position: relative;
+  width: 64px;
+  height: 64px;
+}
+
+.lds-ring div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 51px;
+  height: 51px;
+  margin: 6px;
+  border: 3px solid lightgray;
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: lightgray transparent transparent transparent;
+}
+
+.lds-ring div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+
+.lds-ring div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+
+.lds-ring div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-enter-active {
+  transition: opacity 0.15s ease;
+}
+
+.fade-leave-active {
+  transition: opacity 0.15s ease;
+  opacity: 0;
+}
+
+.vaditaion {
+  color: orangered;
+  font-size: 15px;
+  text-align: left;
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
 }
 </style>

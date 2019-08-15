@@ -46,6 +46,7 @@ export default new Vuex.Store({
     fetchTodos(context) {
       context.state.loading = true;
       db.collection("todos")
+        .where("user", "==", context.state.user.user.id)
         .get()
         .then(querySnapshot => {
           let tempTodos = [];
@@ -82,7 +83,8 @@ export default new Vuex.Store({
         .add({
           title: todo.title,
           done: false,
-          timestamp: new Date()
+          timestamp: new Date(),
+          user: context.getters.user.id
         })
         .then(docRef => {
           context.commit("ADD_TODO", {
@@ -107,7 +109,8 @@ export default new Vuex.Store({
           id: gotTodo.id,
           title: gotTodo.title,
           done: gotTodo.done,
-          timestamp: new Date()
+          timestamp: new Date(),
+          user: context.getters.user.id
         })
         .then(() => {
           context.commit("UPDATE_TODO", gotTodo);

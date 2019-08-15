@@ -1,5 +1,5 @@
 import firebase from "firebase/app";
-require("firebase/auth");
+import "firebase/auth";
 
 class User {
   constructor(id) {
@@ -18,10 +18,70 @@ export default {
   },
   actions: {
     async registerUser(context, { email, password }) {
-      const user = await firebase
+      context.commit("CLEAR_ERROR");
+      context.commit("SET_LOADING", true);
+      try {
+        const user = await firebase
+          .auth()
+          .createUserWithEmailAndPassword(email, password);
+        context.commit("SET_USER", new User(user.user.uid));
+
+        context.commit("SET_NOTIFICATION", "Регистрация прошла успешно");
+
+        context.commit("SET_LOADING", false);
+      } catch (error) {
+        context.commit("SET_LOADING", false);
+        context.commit("SET_ERROR", error.message);
+        throw error;
+      }
+    },
+    async loginUser(context, { email, password }) {
+      context.commit("CLEAR_ERROR");
+      context.commit("SET_LOADING", true);
+      try {
+        const user = await firebase
+          .auth()
+          .signInWithEmailAndPassword(email, password);
+        context.commit("SET_USER", new User(user.user.uid));
+
+        context.commit("SET_LOADING", false);
+      } catch (error) {
+        context.commit("SET_LOADING", false);
+        context.commit("SET_ERROR", error.message);
+        throw error;
+      }
+    },
+    loggedUser(context, user) {
+      context.commit("SET_USER", new User(user.uid));
+    },
+    logoutUser(context) {
+      firebase.auth().signOut();
+      context.commit("SET_USER", null);
+    },
+    forgotPassword(context, email) {
+      firebase
         .auth()
-        .createUserWithEmailAndPassword(email, password);
-      context.commit("SET_USER", new User(user.user.uid));
+        .sendPasswordResetEmail(email)
+        .then(() => {
+          context.commit(
+            "SET_NOTIFICATION",
+            "Запрос о сбросе пароля на вашей почте"
+          );
+        })
+        .catch(error => {
+          context.commit("SET_ERROR", error.message);
+        });
+    },
+    initAuth(context) {
+      return new Promise(res => {
+        firebase.auth().onAuthStateChanged(user => {
+          if (user) {
+            context.commit("SET_USER", new User(user.uid));
+          }
+
+          res(user);
+        });
+      });
     }
   },
   getters: {

@@ -7,7 +7,7 @@
       v-model="todo_input"
       @keyup.enter="addTodo"
     />
-    <div v-if="$store.state.loading" class="lds-ring">
+    <div v-if="loading" class="lds-ring">
       <div></div>
       <div></div>
       <div></div>
@@ -52,6 +52,9 @@ export default {
     this.$store.dispatch("fetchTodos");
   },
   computed: {
+    loading() {
+      return this.$store.getters.loading;
+    },
     todosFiltered() {
       return this.$store.getters.todosFiltered;
     }
@@ -100,47 +103,5 @@ export default {
 .fade-leave-to {
   opacity: 0;
   animation-duration: 0.45s;
-}
-
-.lds-ring {
-  display: block;
-  margin: auto;
-  position: relative;
-  width: 64px;
-  height: 64px;
-}
-
-.lds-ring div {
-  box-sizing: border-box;
-  display: block;
-  position: absolute;
-  width: 51px;
-  height: 51px;
-  margin: 6px;
-  border: 3px solid lightgray;
-  border-radius: 50%;
-  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-  border-color: lightgray transparent transparent transparent;
-}
-
-.lds-ring div:nth-child(1) {
-  animation-delay: -0.45s;
-}
-
-.lds-ring div:nth-child(2) {
-  animation-delay: -0.3s;
-}
-
-.lds-ring div:nth-child(3) {
-  animation-delay: -0.15s;
-}
-
-@keyframes lds-ring {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
 }
 </style>

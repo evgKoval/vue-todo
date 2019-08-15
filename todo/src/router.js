@@ -1,5 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
+import store from "@/store";
+
 import Todo from "./views/Todo.vue";
 import Login from "./views/auth/Login.vue";
 import Register from "./views/auth/Register.vue";
@@ -14,22 +16,38 @@ export default new Router({
     {
       path: "/",
       name: "todo",
-      component: Todo
+      component: Todo,
+      beforeEnter: authGuard
     },
     {
       path: "/login",
       name: "login",
-      component: Login
+      component: Login,
+      beforeEnter: userGuard
     },
     {
       path: "/register",
       name: "register",
-      component: Register
+      component: Register,
+      beforeEnter: userGuard
     },
     {
       path: "/reset",
       name: "reset",
-      component: ResetPassword
+      component: ResetPassword,
+      beforeEnter: userGuard
     }
   ]
 });
+
+function authGuard(to, from, next) {
+  store.dispatch("initAuth").then(user => {
+    user ? next() : next("/login");
+  });
+}
+
+function userGuard(to, from, next) {
+  store.dispatch("initAuth").then(user => {
+    !user ? next() : next("/");
+  });
+}
