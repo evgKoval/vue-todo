@@ -83,16 +83,6 @@ export default {
         done: this.done,
         editing: this.editing
       });
-
-      // eventBus.$emit("finishedEdit", {
-      //   id: this.index,
-      //   todo: {
-      //     id: this.id,
-      //     title: this.title,
-      //     done: this.done,
-      //     editing: this.editing
-      //   }
-      // });
     },
     cancelEdit() {
       this.title = this.cacheTitle;

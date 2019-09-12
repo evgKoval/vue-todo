@@ -264,4 +264,10 @@ a:hover {
   margin-top: -0.5rem;
   margin-bottom: 1rem;
 }
+
+@media screen and (max-width: 1199px) {
+  #app {
+    margin-top: 0;
+  }
+}
 </style>

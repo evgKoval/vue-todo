@@ -14,9 +14,6 @@ export default {
       return this.$store.getters.showClearButton;
     }
   },
-  data() {
-    return {};
-  },
   methods: {
     clearDone() {
       this.$store.dispatch("clearDoneTodos");

@@ -104,4 +104,10 @@ export default {
   opacity: 0;
   animation-duration: 0.45s;
 }
+
+@media screen and (max-width: 699px) {
+  .todo-ext {
+    flex-direction: column;
+  }
+}
 </style>

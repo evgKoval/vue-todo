@@ -22,20 +22,20 @@ export default {
     }
   },
   actions: {
-    setLoading(context, event) {
-      context.commit("SET_LOADING", event);
+    setLoading({ commit }, event) {
+      commit("SET_LOADING", event);
     },
-    setNotification(context, notification) {
-      context.commit("SET_NOTIFICATION", notification);
+    setNotification({ commit }, notification) {
+      commit("SET_NOTIFICATION", notification);
     },
-    clearNotification(context) {
-      context.commit("CLEAR_NOTIFICATION");
+    clearNotification({ commit }) {
+      commit("CLEAR_NOTIFICATION");
     },
-    setError(context, error) {
-      context.commit("SET_ERROR", error);
+    setError({ commit }, error) {
+      commit("SET_ERROR", error);
     },
-    clearError(context) {
-      context.commit("CLEAR_ERROR");
+    clearError({ commit }) {
+      commit("CLEAR_ERROR");
     }
   },
   getters: {

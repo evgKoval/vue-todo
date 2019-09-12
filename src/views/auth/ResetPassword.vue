@@ -34,7 +34,7 @@
 
 <script>
 export default {
-  name: "login",
+  name: "reset",
   data() {
     return {
       email: ""

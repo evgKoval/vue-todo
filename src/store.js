@@ -43,10 +43,10 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    fetchTodos(context) {
-      context.state.loading = true;
+    fetchTodos({ commit, state }) {
+      state.loading = true;
       db.collection("todos")
-        .where("user", "==", context.state.user.user.id)
+        .where("user", "==", state.user.user.id)
         .get()
         .then(querySnapshot => {
           let tempTodos = [];
@@ -60,49 +60,49 @@ export default new Vuex.Store({
             tempTodos.push(data);
           });
 
-          context.state.loading = false;
+          state.loading = false;
           const tempTodosSorted = tempTodos.sort((a, b) => {
             return a.timestamp.seconds - b.timestamp.seconds;
           });
 
-          context.commit("FETCH_TODOS", tempTodosSorted);
+          commit("FETCH_TODOS", tempTodosSorted);
         });
     },
-    changeDone(context, data) {
+    changeDone({ commit }, data) {
       db.collection("todos")
         .doc(data.id)
         .update({
           done: data.event
         })
         .then(() => {
-          context.commit("CHANGE_DONE", data);
+          commit("CHANGE_DONE", data);
         });
     },
-    addTodo(context, todo) {
+    addTodo({ commit, getters }, todo) {
       db.collection("todos")
         .add({
           title: todo.title,
           done: false,
           timestamp: new Date(),
-          user: context.getters.user.id
+          user: getters.user.id
         })
         .then(docRef => {
-          context.commit("ADD_TODO", {
+          commit("ADD_TODO", {
             id: docRef.id,
             title: todo.title,
             done: false
           });
         });
     },
-    deleteTodo(context, id) {
+    deleteTodo({ commit }, id) {
       db.collection("todos")
         .doc(id)
         .delete()
         .then(() => {
-          context.commit("DELETE_TODO", id);
+          commit("DELETE_TODO", id);
         });
     },
-    updateTodo(context, gotTodo) {
+    updateTodo({ commit, getters }, gotTodo) {
       db.collection("todos")
         .doc(gotTodo.id)
         .set({
@@ -110,20 +110,20 @@ export default new Vuex.Store({
           title: gotTodo.title,
           done: gotTodo.done,
           timestamp: new Date(),
-          user: context.getters.user.id
+          user: getters.user.id
         })
         .then(() => {
-          context.commit("UPDATE_TODO", gotTodo);
+          commit("UPDATE_TODO", gotTodo);
         });
     },
-    clearDoneTodos(context) {
+    clearDoneTodos({ commit }) {
       db.collection("todos")
         .where("done", "==", true)
         .get()
         .then(querySnapshot => {
           querySnapshot.forEach(doc => {
             doc.ref.delete().then(() => {
-              context.commit("CLEAR_DONE_TODOS");
+              commit("CLEAR_DONE_TODOS");
             });
           });
         });

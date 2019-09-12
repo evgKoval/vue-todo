@@ -27,7 +27,6 @@
 <script>
 export default {
   name: "todo-filter",
-  props: {},
   computed: {
     filter() {
       return this.$store.state.filter;
@@ -67,5 +66,23 @@ export default {
   background-color: #2ecc71;
   border-color: #2ecc71;
   color: white;
+}
+
+@media screen and (max-width: 699px) {
+  .todo-filters {
+    margin-bottom: 2rem;
+  }
+}
+
+@media screen and (max-width: 499px) {
+  .filter-button {
+    width: 100%;
+    border-left: 1px solid lightgray;
+  }
+
+  .filter-button:first-child,
+  .filter-button:last-child {
+    border-radius: 0;
+  }
 }
 </style>
