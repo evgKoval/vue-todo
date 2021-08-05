@@ -12,7 +12,7 @@
         </template>
         <template v-else>
           <li>
-            <router-link :to="{ name: 'login' }">Войти</router-link>
+            <router-link :to="{ name: 'login' }">signIn</router-link>
           </li>
           <li>
             <router-link :to="{ name: 'register' }">reg</router-link>
