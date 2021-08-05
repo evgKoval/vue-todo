@@ -1,0 +1,59 @@
+[33mcommit 2802fe1afa3dabb7f42b7582ea151f07fbaecae9[m[33m ([m[1;36mHEAD -> [m[1;32mdev[m[33m, [m[1;31morigin/dev[m[33m)[m
+Author: Rostyslav Liashenko <liashenkorostyslav@gmail.com>
+Date:   Thu Aug 5 11:44:10 2021 +0300
+
+    change registration
+
+[33mcommit 836bb201553b4ac013c345fad9f9984c2b2095d9[m
+Author: Rostyslav Liashenko <liashenkorostyslav@gmail.com>
+Date:   Thu Aug 5 11:31:00 2021 +0300
+
+    add ! to app.vue
+
+[33mcommit e34a0bb8a337e4a9dea66929a50a454650f83a8a[m
+Author: Евгений Коваль <48296776+evgKoval@users.noreply.github.com>
+Date:   Thu Sep 12 19:33:24 2019 +0300
+
+    Deploy
+
+[33mcommit 414bc8de87e5c08f875d385ca3aa7474218e7a04[m
+Author: evgKoval <ekovalwork@gmail.com>
+Date:   Thu Aug 15 12:40:21 2019 +0300
+
+    Create .gitignore
+
+[33mcommit 70f3d4e7f1100e8729096a2ae5cd2c30195e3764[m
+Author: evgKoval <ekovalwork@gmail.com>
+Date:   Thu Aug 15 12:39:49 2019 +0300
+
+    Changes
+
+[33mcommit 0cfe2299697c13cc4638eb6915663680997bae24[m
+Author: Евгений Коваль <48296776+evgKoval@users.noreply.github.com>
+Date:   Wed Aug 14 12:26:43 2019 +0300
+
+    Changes
+
+[33mcommit 029635a97cb4d24207c46c3c0ac4660367726613[m
+Author: evgKoval <ekovalwork@gmail.com>
+Date:   Tue Aug 13 22:23:59 2019 +0300
+
+    Changes
+
+[33mcommit fae691f4af22cf9cba76becffaa761ddf0724984[m
+Author: Евгений Коваль <48296776+evgKoval@users.noreply.github.com>
+Date:   Tue Aug 13 01:34:45 2019 +0300
+
+    Changes
+
+[33mcommit edf2f4e8532fe84a3a95efa5800237f052ade129[m
+Author: evgKoval <ekovalwork@gmail.com>
+Date:   Mon Aug 12 23:02:58 2019 +0300
+
+    Changes
+
+[33mcommit 48352aa8562d891981701d2a8fac0d7c1fd25ca1[m
+Author: Евгений Коваль <48296776+evgKoval@users.noreply.github.com>
+Date:   Mon Aug 12 01:31:56 2019 +0300
+
+    Create Untitled-1.js

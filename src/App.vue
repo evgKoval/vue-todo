@@ -15,7 +15,7 @@
             <router-link :to="{ name: 'login' }">Войти</router-link>
           </li>
           <li>
-            <router-link :to="{ name: 'register' }">Регистрация_!</router-link>
+            <router-link :to="{ name: 'register' }">Registration</router-link>
           </li>
         </template>
       </ul>
